@@ -1,3 +1,6 @@
+import { handleResult } from "./handlers.js";
+import { colorsByLength } from "./colors";
+
 window.SpeechRecognition =
   window.SpeechRecogntion || window.webkitSpeechRecognition;
 
