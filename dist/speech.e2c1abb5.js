@@ -5,4 +5,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{"./colors":"CE5M"}],"H8qx":[function(require,module,exports) {
 "use strict";var o=require("./handlers.js"),e=require("./colors");const n=document.querySelector(".colors");function r(o){return o.map(o=>`<span class="color ${o} ${(0,e.isDark)(o)?"dark":""}" style="background: ${o}">${o}</span>`).join("")}function i(){if(!("SpeechRecognition"in window))return void console.log("Sorry your browser does not support speech recognition");console.log("Starting...");const e=new SpeechRecognition;e.continuous=!0,e.interimResults=!0,e.onresult=o.handleResult,e.start()}window.SpeechRecognition=window.SpeechRecogntion||window.webkitSpeechRecognition,i(),n.innerHTML=r(e.coloursByLength);
 },{"./handlers.js":"zKJ3","./colors":"CE5M"}]},{},["H8qx"], null)
-//# sourceMappingURL=speech.e2c1abb5.js.map
+//# sourceMappingURL=https://webdevbrum.github.io/Web-Speech-Colour-Game/speech.e2c1abb5.js.map
