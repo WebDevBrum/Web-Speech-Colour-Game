@@ -1,5 +1,18 @@
 import { handleResult } from "./handlers.js";
-import { colorsByLength } from "./colors";
+import { coloursByLength, isDark } from "./colors";
+
+const colorsEl = document.querySelector(".colors");
+
+function displayColors(colors) {
+  return colors
+    .map(
+      (color) =>
+        `<span class="color ${color} ${
+          isDark(color) ? "dark" : ""
+        }" style="background: ${color}">${color}</span>`
+    )
+    .join("");
+}
 
 window.SpeechRecognition =
   window.SpeechRecogntion || window.webkitSpeechRecognition;
@@ -21,3 +34,4 @@ function start() {
 }
 
 start();
+colorsEl.innerHTML = displayColors(coloursByLength);

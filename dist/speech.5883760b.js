@@ -117,28 +117,14 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"handlers.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.handleResult = handleResult;
-
-function logWords(results) {
-  console.log(results[results.length - 1][0].transcript);
-}
-
-function handleResult(event) {
-  logWords(event.results);
-}
-},{}],"colors.js":[function(require,module,exports) {
+})({"colors.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.isDark = isDark;
+exports.isValidColor = isValidColor;
 exports.coloursByLength = exports.colors = void 0;
 const colors = {
   black: "#000000",
@@ -302,13 +288,59 @@ function isDark(colorName) {
 
 const coloursByLength = Object.keys(colors).sort((a, b) => a.length - b.length);
 exports.coloursByLength = coloursByLength;
-console.log(coloursByLength);
-},{}],"speech.js":[function(require,module,exports) {
+
+function isValidColor(word) {
+  // double bang to coerce boolean
+  return !!colors[word];
+}
+},{}],"handlers.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.handleResult = handleResult;
+
+var _colors = require("./colors");
+
+function logWords(results) {// console.log(results[results.length - 1][0].transcript);
+}
+
+function handleResult({
+  results
+}) {
+  logWords(results);
+  const words = results[results.length - 1][0].transcript; // lowercase everything
+
+  let color = words.toLowerCase(); // strip any spaces out
+
+  color = color.replace(/\s/g, ""); // check if it is a a valid colour
+
+  if (!(0, _colors.isValidColor)(color)) return; // thats all folks
+  // if it is, then show the UI for that
+
+  const colorSpan = document.querySelector(`.${color}`); // alternatively
+  // const colorSpan = document.getElementsByClassname(color);
+
+  colorSpan.classList.add("got");
+  console.log(colorSpan);
+  console.log("This is a valid color");
+  console.log(color); // change the background color
+
+  document.body.style.background = color;
+}
+},{"./colors":"colors.js"}],"speech.js":[function(require,module,exports) {
 "use strict";
 
 var _handlers = require("./handlers.js");
 
 var _colors = require("./colors");
+
+const colorsEl = document.querySelector(".colors");
+
+function displayColors(colors) {
+  return colors.map(color => `<span class="color ${color} ${(0, _colors.isDark)(color) ? "dark" : ""}" style="background: ${color}">${color}</span>`).join("");
+}
 
 window.SpeechRecognition = window.SpeechRecogntion || window.webkitSpeechRecognition;
 
@@ -330,6 +362,7 @@ function start() {
 }
 
 start();
+colorsEl.innerHTML = displayColors(_colors.coloursByLength);
 },{"./handlers.js":"handlers.js","./colors":"colors.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -358,7 +391,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51594" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58587" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
